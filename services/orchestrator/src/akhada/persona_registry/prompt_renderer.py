@@ -28,7 +28,7 @@ def render_summary(p: Persona) -> str:
         f"WVS trad/secular {p.ideological.wvs_traditional_secular:+.2f}, "
         f"survival/self-expr {p.ideological.wvs_survival_self_expression:+.2f}.\n"
         f"Language: {p.language.primary} ({p.language.literacy}); "
-        f"comm style: {p.comm_style.register}/{p.comm_style.verbosity}/{p.comm_style.rhetoric}.\n"
+        f"comm style: {p.comm_style.formality}/{p.comm_style.verbosity}/{p.comm_style.rhetoric}.\n"
         f"Bio: {bio.narrative_summary}\n"
         f"5 things that shaped how you see the world: {books}.\n"
         f"Pet issues: {', '.join(bio.pet_issues) or '—'}.\n"

@@ -66,7 +66,7 @@ def _stub_persona(i: int) -> Persona:
         language=LanguageProfile(
             primary="kn-IN", literacy="literate", scripts_known=["Knda", "Latn"], code_mix=["en"]
         ),
-        comm_style=CommStyle(register="mixed", verbosity="medium", rhetoric="anecdotal"),
+        comm_style=CommStyle(formality="mixed", verbosity="medium", rhetoric="anecdotal"),
         knowledge_cutoff=date(2024, 12, 1),
         biography=Biography(
             narrative_summary=(

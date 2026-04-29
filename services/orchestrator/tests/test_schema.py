@@ -23,7 +23,11 @@ def _book(title: str) -> CulturalInfluence:
 
 def _bio(books: list[CulturalInfluence]) -> Biography:
     return Biography(
-        narrative_summary="I am a stub persona used in tests for the schema.",
+        narrative_summary=(
+            "I am a stub persona used solely in unit tests for the schema; "
+            "this narrative is long enough to satisfy the min_length validator "
+            "of eighty characters that protects bios from being one-liners."
+        ),
         eras=[LifeEra(name="era", age_range=(0, 30), place="x", description="y")],
         formative_experiences=[],
         cultural_influences=books,

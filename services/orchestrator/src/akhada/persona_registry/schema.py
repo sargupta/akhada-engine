@@ -40,7 +40,7 @@ Education = Literal[
 ]
 MPCEQuintile = Literal[1, 2, 3, 4, 5]
 LiteracyLevel = Literal["literate", "functional", "oral_only"]
-Register = Literal["formal", "colloquial", "mixed"]
+Formality = Literal["formal", "colloquial", "mixed"]
 Verbosity = Literal["low", "medium", "high"]
 Rhetoric = Literal["analytical", "anecdotal", "emotional", "aphoristic"]
 
@@ -110,7 +110,9 @@ class LanguageProfile(BaseModel):
 
 
 class CommStyle(BaseModel):
-    register: Register
+    # NB: field is `formality` (not `register`) — `register` shadows
+    # a Pydantic BaseModel inherited attribute and triggers UserWarning.
+    formality: Formality
     verbosity: Verbosity
     rhetoric: Rhetoric
 

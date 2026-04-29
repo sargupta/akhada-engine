@@ -1,0 +1,35 @@
+                    GNU AFFERO GENERAL PUBLIC LICENSE
+                       Version 3, 19 November 2007
+
+ Copyright (C) 2026 Akhada contributors
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as
+ published by the Free Software Foundation, either version 3 of the
+ License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+
+Full canonical text: https://www.gnu.org/licenses/agpl-3.0.txt
+
+NOTE: A copy of the full AGPL-3.0 text must be vendored into this file
+before V1 ship. Tracked as a pre-V1 gate.
+
+---
+
+COMMERCIAL LICENSE
+
+Akhada is dual-licensed. The AGPL-3.0 license above governs the open-core
+engine. Commercial features (50K-persona library v2 with district-anchored
+biographies, DigiLocker e-KYC integration, Opus synthesis tier, on-prem
+deploy kit, audit-immutability WORM provisioning, multi-tenant CMEK
+provisioning, white-label Studio, observability/SLO dashboard pack) are
+available under a commercial license. Contact the maintainers.

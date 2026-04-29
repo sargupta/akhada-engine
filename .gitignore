@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+*.egg-info/
+*.egg
+.venv/
+venv/
+.python-version
+
+# Poetry
+.poetry/
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+.turbo/
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+*.tfvars
+!example.tfvars
+
+# Cloud / build artifacts
+*.log
+.cache/
+.gcp/
+
+# Persona library data (large, fetched separately)
+data/raw/
+data/processed/
+data/personas/*.parquet
+!data/personas/.gitkeep
+
+# Benchmark results checkpoints (keep summary, drop raw)
+benchmarks/akhada-bench/results/raw/

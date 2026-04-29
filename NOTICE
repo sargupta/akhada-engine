@@ -1,0 +1,22 @@
+Akhada — Open Debate Engine
+Copyright (C) 2026 Akhada contributors
+
+This product includes software developed by:
+  - Google Agent Development Kit (Apache-2.0)
+  - FastAPI (MIT)
+  - Pydantic (MIT)
+  - Next.js (MIT)
+
+Datasets referenced in persona library generation (per source license):
+  - Census of India 2011 — Government of India open data
+  - AI4Bharat IndicVoices, IndicAlign, IndicCorp — CC-BY 4.0
+  - Open Library — CC0 + ODbL
+  - Wikidata — CC0
+  - PRS Legislative Research — CC-BY 4.0
+  - Pratham StoryWeaver — CC-BY 4.0
+  - World Values Survey — per WVS license
+
+Datasets explicitly NOT redistributed (calibration / verification only):
+  - IMDb non-commercial — replaced with Wikidata
+  - Sahapedia (CC-BY-NC-SA) — verification reference only
+  - Pew India — calibration baseline only

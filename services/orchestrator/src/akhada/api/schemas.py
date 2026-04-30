@@ -17,6 +17,19 @@ class DebateRequest(BaseModel):
     weights_version: str = "weights:v0.0.0"
 
 
+class PanelArchetype(BaseModel):
+    """One distinct persona archetype present in the panel."""
+    persona_id: str
+    label: str  # e.g. "55-64 male, marginal farmer, rural Bihar"
+    state: str
+    religion: str
+    age_band: str
+    education: str
+    primary_language: str
+    literacy: str
+    count: int  # how many copies of this archetype the panel contains
+
+
 class DebateResponse(BaseModel):
     debate_id: str
     topic: str
@@ -25,6 +38,7 @@ class DebateResponse(BaseModel):
     persona_library_version: str
     weights_version: str
     n_personas: int
+    panel_archetypes: list[PanelArchetype] = Field(default_factory=list)
     minority_voice_fraction: float = 0.0  # populated V1
     cost_usd: float = 0.0  # populated V1
     latency_ms: int = 0  # populated V1

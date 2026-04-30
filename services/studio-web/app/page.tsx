@@ -4,6 +4,18 @@ import { useState } from "react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://127.0.0.1:8080";
 
+type PanelArchetype = {
+  persona_id: string;
+  label: string;
+  state: string;
+  religion: string;
+  age_band: string;
+  education: string;
+  primary_language: string;
+  literacy: string;
+  count: number;
+};
+
 type DebateResponse = {
   debate_id: string;
   topic: string;
@@ -12,6 +24,7 @@ type DebateResponse = {
   persona_library_version: string;
   weights_version: string;
   n_personas: number;
+  panel_archetypes: PanelArchetype[];
 };
 
 export default function Home() {
@@ -89,6 +102,17 @@ export default function Home() {
 
       {result && (
         <>
+          <h2>Panel ({result.n_personas} agents, {result.panel_archetypes.length} archetypes)</h2>
+          <ul className="archetypes">
+            {result.panel_archetypes.map((a) => (
+              <li key={a.persona_id}>
+                <span className="count">×{a.count}</span> {a.label}
+                <span className="meta">
+                  {" "}· {a.religion} · {a.education} · {a.primary_language} ({a.literacy})
+                </span>
+              </li>
+            ))}
+          </ul>
           <h2>Article</h2>
           <pre>{result.article}</pre>
           <h2>Conclusive remark</h2>

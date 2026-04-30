@@ -45,17 +45,17 @@ def test_top_5_books_must_be_exactly_5() -> None:
 
 
 def test_persona_id_pattern() -> None:
-    from akhada.api.routes import _stub_persona
+    from akhada.persona_registry.fixtures import LIBRARY
 
-    p = _stub_persona(1)
-    assert p.id.startswith("akh-p-")
-    assert p.version.startswith("personas:")
+    for p in LIBRARY:
+        assert p.id.startswith("akh-p-")
+        assert p.version.startswith("personas:")
 
 
 def test_persona_immutable() -> None:
-    from akhada.api.routes import _stub_persona
+    from akhada.persona_registry.fixtures import LIBRARY
 
-    p = _stub_persona(1)
+    p = LIBRARY[0]
     with pytest.raises(ValidationError):
         p.id = "changed"  # type: ignore[misc]
 

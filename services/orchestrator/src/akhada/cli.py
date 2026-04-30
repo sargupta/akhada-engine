@@ -32,10 +32,10 @@ def main() -> int:
     args = parser.parse_args()
 
     if args.cmd == "debate" and args.debate_cmd == "run":
-        from akhada.api.routes import _stub_persona
         from akhada.flows.debate import run_debate
+        from akhada.persona_registry.fixtures import get_panel
 
-        panel = [_stub_persona(i) for i in range(args.agents)]
+        panel = get_panel(args.agents)
         result = run_debate(args.topic, panel)
         print(result.article)
         print()

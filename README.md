@@ -38,6 +38,32 @@ npm run dev
 
 V0 runs entirely local (no GCP required). Vertex/Firestore wiring lands at V1.
 
+## Offline vs online (V0.7)
+
+The orchestrator has two backends. Default is **offline** — a deterministic
+stub used by tests + CI.
+
+To run **online** with real Gemini:
+
+```bash
+# 1. Get a free Gemini API key from https://aistudio.google.com/apikey
+# 2. cp .env.example .env  (at repo root)
+# 3. Edit .env:
+#       AKHADA_OFFLINE=false
+#       GOOGLE_API_KEY=<paste key>
+# 4. Restart uvicorn
+```
+
+Verify:
+
+```bash
+curl http://127.0.0.1:8080/v1/runtime
+# {"online_ready":true,"reason":null}
+```
+
+Now `POST /v1/debates` runs real Flash openings (one per persona, async-fanned)
++ Pro synthesis + Pro conclusion. Cost ≈ $0.01 per 50-persona debate.
+
 ## License
 
 AGPL-3.0 (engine + persona library v1). See `LICENSE`.

@@ -24,6 +24,8 @@ type DebateResponse = {
   weights_version: string;
   n_personas: number;
   panel_archetypes: Archetype[];
+  backend: "offline-stub" | "online-gemini";
+  openings_failed: number;
 };
 
 export default function Home() {
@@ -87,6 +89,8 @@ export default function Home() {
                   n={result.n_personas}
                   libVersion={result.persona_library_version}
                   weightsVersion={result.weights_version}
+                  backend={result.backend}
+                  openingsFailed={result.openings_failed}
                 />
                 <PanelComposition
                   archetypes={result.panel_archetypes}

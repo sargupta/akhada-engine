@@ -1,23 +1,15 @@
 """Top-level debate flow.
 
-V0: a synchronous Python pipeline that walks R0 → R1 → R2 → R3 stages and
-returns a stub `DebateResult`.
+V0/V0.7 dispatcher between two backends:
+  - offline (default): a deterministic synchronous Python stub used by
+    tests + CI. No model calls.
+  - online: dispatches to `runtime.online.run_real_debate`, which calls
+    real Gemini Flash + Pro via google-genai. Requires `GOOGLE_API_KEY`
+    and `AKHADA_OFFLINE=false`.
 
-V1 (per plan §6): rebuilds this as
-
-    SequentialAgent(
-        sub_agents=[
-            framer,                              # R0
-            ParallelAgent(persona_leaf x 500),   # R1 openings (5 nested ParallelAgent(100))
-            ParallelAgent(cluster x 25),         # R1' cluster debate
-            ParallelAgent(super_cluster x 5),    # R2
-            LoopAgent(final, max_iters=2),       # R3 with conformity-check loop
-        ]
-    )
-
-with state shared via `output_key`s on `session.state` keyed
-`r1.persona_<id>.utterance` etc. (avoids race-condition writes per ADK
-concurrency notes).
+V1 (plan §6) rebuilds online as a real ADK SequentialAgent +
+ParallelAgent pipeline with cluster/super-cluster layers and audit-
+trail emission.
 """
 from __future__ import annotations
 
@@ -28,6 +20,7 @@ from akhada.agents.cluster import cluster_rep_position
 from akhada.agents.final import final_synthesis
 from akhada.agents.persona_leaf import open_statement
 from akhada.agents.super_cluster import super_cluster_synth
+from akhada.config import online_mode_ready
 from akhada.persona_registry.schema import Persona
 
 
@@ -39,19 +32,19 @@ class DebateResult:
     openings: list[str]
     cluster_positions: list[str]
     super_positions: list[str]
+    backend: str = "offline-stub"
+    openings_failed: int = 0
 
 
 def run_debate(topic: str, panel: Sequence[Persona], cluster_size: int = 20) -> DebateResult:
-    """V0 synchronous pipeline. V1 → ADK SequentialAgent + ParallelAgent."""
+    """V0 deterministic stub. Always available — no network."""
     openings = [open_statement(p, topic) for p in panel]
 
-    # cluster into groups of `cluster_size`
     clusters: list[list[Persona]] = [
         list(panel[i : i + cluster_size]) for i in range(0, len(panel), cluster_size)
     ]
     cluster_positions = [cluster_rep_position(c, topic) for c in clusters]
 
-    # super-cluster: simple buckets of 5 cluster reps
     super_buckets: list[list[str]] = [
         cluster_positions[i : i + 5] for i in range(0, len(cluster_positions), 5)
     ]
@@ -72,4 +65,28 @@ def run_debate(topic: str, panel: Sequence[Persona], cluster_size: int = 20) -> 
         openings=openings,
         cluster_positions=cluster_positions,
         super_positions=super_positions,
+    )
+
+
+async def run_debate_async(
+    topic: str, panel: Sequence[Persona], cluster_size: int = 20
+) -> DebateResult:
+    """Dispatch: online when ready, otherwise offline stub."""
+    ready, _reason = online_mode_ready()
+    if not ready:
+        return run_debate(topic, panel, cluster_size)
+
+    # Lazy import — google-genai only loaded in online mode.
+    from akhada.runtime.online import run_real_debate
+
+    online = await run_real_debate(topic, panel)
+    return DebateResult(
+        topic=online.topic,
+        article=online.article,
+        conclusive_remark=online.conclusive_remark,
+        openings=online.openings,
+        cluster_positions=[],
+        super_positions=[],
+        backend="online-gemini",
+        openings_failed=online.openings_failed,
     )

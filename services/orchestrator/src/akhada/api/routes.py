@@ -11,7 +11,8 @@ from collections import Counter
 from fastapi import APIRouter, HTTPException
 
 from akhada.api.schemas import DebateRequest, DebateResponse, HealthResponse, PanelArchetype
-from akhada.flows.debate import run_debate
+from akhada.config import online_mode_ready
+from akhada.flows.debate import run_debate_async
 from akhada.persona_registry.fixtures import get_panel
 from akhada.persona_registry.schema import Persona
 
@@ -49,12 +50,16 @@ def health() -> HealthResponse:
 
 
 @router.post("/v1/debates", response_model=DebateResponse)
-def create_debate(req: DebateRequest) -> DebateResponse:
-    """V0.5 — runs the synchronous Python debate pipeline against
-    a panel cycled from the 5 hand-curated fixtures.
+async def create_debate(req: DebateRequest) -> DebateResponse:
+    """V0.7 — async dispatcher.
 
-    V1 wires real persona registry (5K library) + ADK SequentialAgent
-    + SSE stream + audit trail to BigQuery.
+    Defaults to the offline stub. When AKHADA_OFFLINE=false AND
+    GOOGLE_API_KEY is set, dispatches to runtime.online.run_real_debate
+    which makes real Gemini Flash + Pro calls and produces a genuine
+    article + conclusive remark.
+
+    V1 swaps the online backend to real ADK SequentialAgent + ParallelAgent
+    + SSE stream + audit trail.
     """
     if req.mode == "publication":
         # ECI guard placeholder — V1 reads the election lookup table
@@ -64,7 +69,7 @@ def create_debate(req: DebateRequest) -> DebateResponse:
         )
 
     panel = get_panel(req.n_agents)
-    result = run_debate(req.topic, panel, cluster_size=req.cluster_size)
+    result = await run_debate_async(req.topic, panel, cluster_size=req.cluster_size)
 
     return DebateResponse(
         debate_id=str(uuid.uuid4()),
@@ -75,4 +80,13 @@ def create_debate(req: DebateRequest) -> DebateResponse:
         weights_version=req.weights_version,
         n_personas=len(panel),
         panel_archetypes=_summarise_panel(panel),
+        backend=result.backend,
+        openings_failed=result.openings_failed,
     )
+
+
+@router.get("/v1/runtime")
+def runtime_status() -> dict[str, object]:
+    """Reports whether the online runtime is ready, and why if not."""
+    ready, reason = online_mode_ready()
+    return {"online_ready": ready, "reason": reason}

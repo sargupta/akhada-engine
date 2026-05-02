@@ -39,6 +39,8 @@ class DebateResponse(BaseModel):
     weights_version: str
     n_personas: int
     panel_archetypes: list[PanelArchetype] = Field(default_factory=list)
+    backend: Literal["offline-stub", "online-gemini"] = "offline-stub"
+    openings_failed: int = 0
     minority_voice_fraction: float = 0.0  # populated V1
     cost_usd: float = 0.0  # populated V1
     latency_ms: int = 0  # populated V1

@@ -31,5 +31,20 @@ class Settings(BaseSettings):
     akhada_api_port: int = 8080
     akhada_log_level: str = "INFO"
 
+    # V0.7: online vs offline mode.
+    # offline (default) returns the deterministic stub debate. Tests stay
+    # hermetic and CI green. online dispatches to runtime.online which
+    # makes real Gemini calls — requires google_api_key set.
+    akhada_offline: bool = True
+
 
 settings = Settings()
+
+
+def online_mode_ready() -> tuple[bool, str | None]:
+    """Returns (ready, reason). Ready means online debates can run."""
+    if settings.akhada_offline:
+        return False, "AKHADA_OFFLINE=true (default V0 stub)"
+    if not settings.google_api_key:
+        return False, "GOOGLE_API_KEY not set"
+    return True, None

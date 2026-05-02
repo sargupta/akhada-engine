@@ -1,91 +1,173 @@
-:root {
-  --bg: #0b0d10;
-  --fg: #e8eaed;
-  --muted: #9aa0a6;
-  --accent: #d4a017;
-  --border: #2a2d31;
+/* Self-hosted fonts — no remote fetch. */
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/source-serif-4/400.css";
+@import "@fontsource/source-serif-4/600.css";
+@import "@fontsource/source-serif-4/400-italic.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light — warm institutional cream + ink. */
+    --bg: #F8F4ED;
+    --bg-elev: #FCFAF5;
+    --ink: #1A1814;
+    --ink-muted: #5C5750;
+    --hairline: #E0D7C2;
+    --saffron: #C8932B;
+    --saffron-strong: #A77918;
+    --error-bg: #FBEFEC;
+    --error-fg: #8A2A14;
+  }
+  .dark {
+    /* Dark — deep ink + warm cream text. */
+    --bg: #0E1014;
+    --bg-elev: #14161A;
+    --ink: #ECE6D8;
+    --ink-muted: #8A857B;
+    --hairline: #262421;
+    --saffron: #D9A744;
+    --saffron-strong: #C8932B;
+    --error-bg: #2A1815;
+    --error-fg: #F1B8AA;
+  }
+
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: theme("fontFamily.sans");
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* Tracked-out tiny caps for running heads + meta lines. */
+  .smallcaps {
+    font-feature-settings: "smcp", "c2sc", "lnum" 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--saffron);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--saffron);
+    color: var(--bg);
+  }
 }
 
-* { box-sizing: border-box; }
+@layer components {
+  .pill {
+    @apply inline-flex items-center gap-1 rounded-full border px-2 py-[0.15rem] text-2xs font-medium uppercase tracking-wider;
+    border-color: var(--hairline);
+    color: var(--ink-muted);
+  }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
-    sans-serif;
-  font-size: 15px;
-  line-height: 1.55;
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors duration-150 ease-out-soft;
+    background: var(--saffron);
+    color: #14110C;
+  }
+  .btn-primary:hover { background: var(--saffron-strong); }
+  .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-1 text-sm font-medium underline-offset-4 transition-colors hover:underline;
+    color: var(--ink-muted);
+  }
+  .btn-secondary:hover { color: var(--ink); }
+
+  .input {
+    @apply w-full rounded-md border bg-transparent px-3 py-2 text-sm transition-colors duration-150 ease-out-soft placeholder:text-[var(--ink-muted)];
+    border-color: var(--hairline);
+    color: var(--ink);
+  }
+  .input:focus { border-color: var(--saffron); outline: none; box-shadow: 0 0 0 1px var(--saffron); }
+  .input:disabled { opacity: 0.55; cursor: not-allowed; }
 }
 
-a { color: var(--accent); }
-
-main {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 32px 24px 96px;
+/* Article prose — editorial, NYT-ish. */
+.prose-akhada {
+  font-family: theme("fontFamily.serif");
+  color: var(--ink);
+  line-height: 1.65;
+  font-size: 1.0625rem; /* 17px */
 }
-
-h1, h2, h3 { font-weight: 600; letter-spacing: -0.01em; }
-h1 { font-size: 28px; margin-top: 0; }
-h2 { font-size: 20px; margin-top: 32px; }
-
-label { display: block; margin-top: 16px; font-size: 13px; color: var(--muted); }
-
-input, select, textarea, button {
-  font: inherit;
-  background: #15181c;
-  color: var(--fg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 10px;
-  width: 100%;
-  margin-top: 4px;
-}
-
-button {
-  cursor: pointer;
-  background: var(--accent);
-  color: #0b0d10;
-  border: none;
+.prose-akhada p { margin-block: 1em; }
+.prose-akhada h1, .prose-akhada h2, .prose-akhada h3 {
+  font-family: theme("fontFamily.serif");
   font-weight: 600;
-  margin-top: 24px;
-  width: auto;
-  padding: 10px 20px;
+  letter-spacing: -0.01em;
+  margin-top: 1.6em;
+  margin-bottom: 0.5em;
+  line-height: 1.25;
 }
-
-button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-pre {
-  background: #15181c;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 12px;
-  overflow-x: auto;
-  font-size: 13px;
+.prose-akhada h1 { font-size: 1.875rem; }
+.prose-akhada h2 {
+  font-size: 1.5rem;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--hairline);
 }
-
-.muted { color: var(--muted); font-size: 13px; }
-
-.archetypes { list-style: none; padding: 0; margin: 12px 0 0; }
-.archetypes li {
-  border: 1px solid var(--border);
-  background: #15181c;
-  border-radius: 6px;
-  padding: 10px 12px;
-  margin-bottom: 8px;
-  font-size: 14px;
+.prose-akhada h3 { font-size: 1.25rem; }
+.prose-akhada ul {
+  list-style: none;
+  padding-left: 0;
+  margin-block: 1em;
 }
-.archetypes .count {
-  display: inline-block;
-  background: var(--accent);
-  color: #0b0d10;
+.prose-akhada ul > li {
+  padding-left: 1.4em;
+  position: relative;
+  margin-block: 0.5em;
+}
+.prose-akhada ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 0.7em;
+  height: 1px;
+  background: var(--saffron);
+}
+.prose-akhada strong { font-weight: 600; color: var(--ink); }
+.prose-akhada em { font-style: italic; }
+.prose-akhada code {
+  font-family: theme("fontFamily.mono");
+  font-size: 0.95em;
+  padding: 0 0.25em;
+  background: var(--bg-elev);
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+}
+.prose-akhada > p:first-of-type::first-letter {
+  font-family: theme("fontFamily.serif");
+  font-size: 3.6em;
+  line-height: 0.85;
+  float: left;
+  margin: 0.05em 0.12em 0 0;
   font-weight: 600;
-  border-radius: 4px;
-  padding: 1px 8px;
-  margin-right: 10px;
-  min-width: 36px;
-  text-align: center;
+  color: var(--saffron);
 }
-.archetypes .meta { color: var(--muted); font-size: 13px; }
+.prose-akhada blockquote {
+  border-left: 2px solid var(--hairline);
+  padding-left: 1rem;
+  margin-block: 1.2em;
+  font-style: italic;
+  color: var(--ink-muted);
+}
+
+/* Decorative grain dropped — was creating stacking-context confusion in dev preview. */

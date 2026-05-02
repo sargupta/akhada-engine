@@ -2,19 +2,18 @@
 
 import { useState } from "react";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://127.0.0.1:8080";
+import { ConclusiveRemark } from "@/components/ConclusiveRemark";
+import { ConfigurePanel } from "@/components/ConfigurePanel";
+import { EmptyState } from "@/components/EmptyState";
+import { Footer } from "@/components/Footer";
+import { HeroHeader } from "@/components/HeroHeader";
+import { NavBar } from "@/components/NavBar";
+import { PanelComposition } from "@/components/PanelComposition";
+import { ResultHeader } from "@/components/ResultHeader";
+import { ArticleProse } from "@/components/ArticleProse";
+import type { Archetype } from "@/components/ArchetypeCard";
 
-type PanelArchetype = {
-  persona_id: string;
-  label: string;
-  state: string;
-  religion: string;
-  age_band: string;
-  education: string;
-  primary_language: string;
-  literacy: string;
-  count: number;
-};
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://127.0.0.1:8080";
 
 type DebateResponse = {
   debate_id: string;
@@ -24,18 +23,15 @@ type DebateResponse = {
   persona_library_version: string;
   weights_version: string;
   n_personas: number;
-  panel_archetypes: PanelArchetype[];
+  panel_archetypes: Archetype[];
 };
 
 export default function Home() {
-  const [topic, setTopic] = useState("MSP for all crops");
-  const [nAgents, setNAgents] = useState(50);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<DebateResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<DebateResponse | null>(null);
 
-  async function runDebate(e: React.FormEvent) {
-    e.preventDefault();
+  async function runDebate(topic: string, n: number) {
     setLoading(true);
     setError(null);
     setResult(null);
@@ -45,13 +41,13 @@ export default function Home() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           topic,
-          n_agents: nAgents,
-          cluster_size: Math.min(20, nAgents),
+          n_agents: n,
+          cluster_size: Math.min(20, n),
           rounds: 1,
         }),
       });
       if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
-      setResult(await res.json());
+      setResult((await res.json()) as DebateResponse);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -60,70 +56,53 @@ export default function Home() {
   }
 
   return (
-    <main>
-      <h1>Akhada — Studio</h1>
-      <p className="muted">
-        V0 scaffold. Hand-curated stub personas, naive flat debate. Real ADK
-        orchestration + 500-agent hierarchical topology lands V1.
-      </p>
-
-      <form onSubmit={runDebate}>
-        <label>
-          Topic
-          <textarea
-            rows={3}
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            required
-            minLength={4}
-          />
-        </label>
-        <label>
-          Number of agents (V0 stub: 5-50)
-          <input
-            type="number"
-            min={5}
-            max={50}
-            value={nAgents}
-            onChange={(e) => setNAgents(Number(e.target.value))}
-          />
-        </label>
-        <button type="submit" disabled={loading}>
-          {loading ? "Running…" : "Run debate"}
-        </button>
-      </form>
-
-      {error && (
-        <>
-          <h2>Error</h2>
-          <pre>{error}</pre>
-        </>
-      )}
-
-      {result && (
-        <>
-          <h2>Panel ({result.n_personas} agents, {result.panel_archetypes.length} archetypes)</h2>
-          <ul className="archetypes">
-            {result.panel_archetypes.map((a) => (
-              <li key={a.persona_id}>
-                <span className="count">×{a.count}</span> {a.label}
-                <span className="meta">
-                  {" "}· {a.religion} · {a.education} · {a.primary_language} ({a.literacy})
-                </span>
-              </li>
-            ))}
-          </ul>
-          <h2>Article</h2>
-          <pre>{result.article}</pre>
-          <h2>Conclusive remark</h2>
-          <pre>{result.conclusive_remark}</pre>
-          <p className="muted">
-            debate_id: {result.debate_id} · personas: {result.n_personas} ·
-            library: {result.persona_library_version} · weights:{" "}
-            {result.weights_version}
-          </p>
-        </>
-      )}
-    </main>
+    <>
+      <NavBar />
+      <main className="relative">
+        <HeroHeader />
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 lg:grid-cols-[360px_1fr]">
+          <aside>
+            <ConfigurePanel loading={loading} onRun={runDebate} />
+          </aside>
+          <section className="flex flex-col gap-12">
+            {error && (
+              <div
+                className="rounded-md border px-4 py-3 text-sm"
+                style={{
+                  borderColor: "var(--error-fg)",
+                  background: "var(--error-bg)",
+                  color: "var(--error-fg)",
+                }}
+              >
+                <div className="smallcaps text-2xs">Error</div>
+                <div className="mt-1 font-mono text-xs">{error}</div>
+              </div>
+            )}
+            {!result && !error && <EmptyState />}
+            {result && (
+              <>
+                <ResultHeader
+                  debateId={result.debate_id}
+                  topic={result.topic}
+                  n={result.n_personas}
+                  libVersion={result.persona_library_version}
+                  weightsVersion={result.weights_version}
+                />
+                <PanelComposition
+                  archetypes={result.panel_archetypes}
+                  total={result.n_personas}
+                />
+                <ArticleProse markdown={result.article} />
+                <ConclusiveRemark
+                  remark={result.conclusive_remark}
+                  weightsVersion={result.weights_version}
+                />
+              </>
+            )}
+          </section>
+        </div>
+      </main>
+      <Footer debateId={result?.debate_id} />
+    </>
   );
 }

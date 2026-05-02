@@ -49,3 +49,45 @@ class DebateResponse(BaseModel):
 class HealthResponse(BaseModel):
     status: Literal["ok"] = "ok"
     version: str
+
+
+# ---- V0.10 persistence + audit ---------------------------------------
+
+class DebateListItem(BaseModel):
+    debate_id: str
+    topic: str
+    backend: Literal["offline-stub", "online-gemini"]
+    n_personas: int
+    created_at: float
+
+
+class DebateRecord(BaseModel):
+    debate_id: str
+    topic: str
+    backend: Literal["offline-stub", "online-gemini"]
+    n_personas: int
+    library_version: str
+    weights_version: str
+    article: str
+    conclusive_remark: str
+    panel_archetypes: list[PanelArchetype] = Field(default_factory=list)
+    openings_failed: int
+    created_at: float
+
+
+class AuditEventOut(BaseModel):
+    event_id: str
+    seq: int
+    event_type: str
+    prev_hash: str
+    payload_hash: str
+    payload: dict
+    ts: float
+
+
+class DebateAuditResponse(BaseModel):
+    debate_id: str
+    topic: str
+    chain_valid: bool
+    chain_error: str | None
+    events: list[AuditEventOut]

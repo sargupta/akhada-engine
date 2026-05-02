@@ -16,7 +16,11 @@ log = init_logging()
 
 @asynccontextmanager
 async def _lifespan(_app: FastAPI) -> AsyncIterator[None]:
+    from akhada.persistence.sqlite import init_db
+
     log.info("akhada-orchestrator starting; version=%s", __version__)
+    init_db()
+    log.info("debate store initialised")
     yield
     log.info("akhada-orchestrator stopping")
 

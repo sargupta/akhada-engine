@@ -42,6 +42,10 @@ class Settings(BaseSettings):
     # the loaded library, de-duplicated by Persona.id.
     akhada_personas_file: str = ""
 
+    # V0.10: SQLite path for the debate store + hash-chained audit log.
+    # Defaults to ./data/akhada.db relative to the orchestrator working dir.
+    akhada_db_path: str = ""
+
 
 settings = Settings()
 

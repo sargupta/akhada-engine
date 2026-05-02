@@ -63,5 +63,10 @@ data/processed/
 data/personas/*.parquet
 !data/personas/.gitkeep
 
+# SQLite store (V0.10 dev runtime)
+**/data/*.db
+**/data/*.db-shm
+**/data/*.db-wal
+
 # Benchmark results checkpoints (keep summary, drop raw)
 benchmarks/akhada-bench/results/raw/

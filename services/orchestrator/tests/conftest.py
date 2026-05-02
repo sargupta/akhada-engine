@@ -1,34 +1,24 @@
 """Test environment guards.
 
-The orchestrator reads `AKHADA_OFFLINE` from the .env file at startup.
-In dev we set it to `false` so /v1/debates fires real Gemini. In tests
-we MUST force offline mode so no test ever spends real money or makes a
-network call.
+The orchestrator reads `.env` at startup. In dev .env carries
+AKHADA_OFFLINE=false + GOOGLE_API_KEY + AKHADA_PERSONAS_FILE so real
+debates and the loaded persona library are live. In tests we must:
 
-This conftest:
-1. Forces AKHADA_OFFLINE=true via pydantic-settings before any test
-   imports the API.
-2. Clears GOOGLE_API_KEY so even if a test accidentally bypasses the
-   flag, the online runtime will refuse to start.
+  - force AKHADA_OFFLINE=true
+  - clear GOOGLE_API_KEY (so an accidental online call refuses)
+  - clear AKHADA_PERSONAS_FILE (so fixtures.LIBRARY = 5 hand-curated only)
+
+These overrides MUST happen before pydantic-settings instantiates
+`Settings` from the .env file. pytest loads `conftest.py` top-level
+code BEFORE collecting test modules, so we set os.environ here at
+top level (not inside a fixture, which would run too late).
 """
 from __future__ import annotations
 
 import os
 
-import pytest
-
-
-@pytest.fixture(autouse=True, scope="session")
-def _force_offline_runtime() -> None:
-    os.environ["AKHADA_OFFLINE"] = "true"
-    os.environ.pop("GOOGLE_API_KEY", None)
-
-    # If `akhada.config.settings` was already imported (e.g. from .env),
-    # patch it back to the offline defaults.
-    try:
-        from akhada import config
-
-        config.settings.akhada_offline = True
-        config.settings.google_api_key = ""
-    except Exception:
-        pass
+# Top-level env setup — runs before any `from akhada...` import
+# in test modules, so pydantic-settings reads our overrides.
+os.environ["AKHADA_OFFLINE"] = "true"
+os.environ["GOOGLE_API_KEY"] = ""
+os.environ["AKHADA_PERSONAS_FILE"] = ""

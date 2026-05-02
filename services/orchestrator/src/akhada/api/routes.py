@@ -13,7 +13,8 @@ from fastapi import APIRouter, HTTPException
 from akhada.api.schemas import DebateRequest, DebateResponse, HealthResponse, PanelArchetype
 from akhada.config import online_mode_ready
 from akhada.flows.debate import run_debate_async
-from akhada.persona_registry.fixtures import get_panel
+from akhada.persona_registry.fixtures import LIBRARY
+from akhada.persona_registry.sampler import sample_panel
 from akhada.persona_registry.schema import Persona
 
 
@@ -68,7 +69,7 @@ async def create_debate(req: DebateRequest) -> DebateResponse:
             detail="publication mode requires gov-tier attestation; V0 supports research mode only",
         )
 
-    panel = get_panel(req.n_agents)
+    panel = sample_panel(LIBRARY, req.n_agents)
     result = await run_debate_async(req.topic, panel, cluster_size=req.cluster_size)
 
     return DebateResponse(

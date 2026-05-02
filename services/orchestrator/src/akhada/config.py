@@ -37,6 +37,11 @@ class Settings(BaseSettings):
     # makes real Gemini calls — requires google_api_key set.
     akhada_offline: bool = True
 
+    # V0.8: optional path to a JSONL persona library. When set + readable,
+    # `persona_registry.fixtures` merges the 5 hand-curated fixtures with
+    # the loaded library, de-duplicated by Persona.id.
+    akhada_personas_file: str = ""
+
 
 settings = Settings()
 

@@ -827,7 +827,7 @@ _PUNJABI_VETERAN = Persona(
 # Public API
 # ---------------------------------------------------------------------------
 
-LIBRARY: list[Persona] = [
+_HAND_CURATED: list[Persona] = [
     _KARNATAKA_TEACHER,
     _BIHAR_FARMER,
     _MUMBAI_FOUNDER,
@@ -836,12 +836,45 @@ LIBRARY: list[Persona] = [
 ]
 
 
+def _resolve_library() -> list[Persona]:
+    """Resolve the active persona library.
+
+    Behaviour:
+    - If the setting ``akhada_personas_file`` (env: AKHADA_PERSONAS_FILE)
+      points to a readable JSONL, load it and concatenate with the
+      hand-curated fixtures (de-duplicated by Persona.id).
+    - Otherwise return the 5 hand-curated fixtures only.
+    """
+    from pathlib import Path
+
+    from akhada.config import settings
+    from akhada.persona_registry.loader import merge, read_jsonl
+
+    path_str = (settings.akhada_personas_file or "").strip()
+    if not path_str:
+        return _HAND_CURATED
+
+    p = Path(path_str).expanduser()
+    if not p.is_file():
+        return _HAND_CURATED
+
+    try:
+        generated = read_jsonl(p)
+    except Exception:  # noqa: BLE001
+        return _HAND_CURATED
+
+    return merge(_HAND_CURATED, generated)
+
+
+LIBRARY: list[Persona] = _resolve_library()
+
+
 def get_panel(n: int) -> list[Persona]:
     """Return N personas by cycling the library.
 
-    V0: 5 fixtures cycled. V1: this becomes a real DPP draw against a
-    5,000+-persona library, with topic-conditional quotas + adversarial
-    seeding (plan §5.5, §19.2).
+    V0.5: 5 hand-curated fixtures cycled. V0.8: cycles a (possibly larger)
+    JSONL library when ``AKHADA_PERSONAS_FILE`` is set. V1: real k-DPP
+    draw with topic-conditional quotas + adversarial seeding (§5.5, §19.2).
     """
     if n < 1:
         raise ValueError(f"n must be >= 1, got {n}")

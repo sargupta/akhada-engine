@@ -550,12 +550,32 @@ akhada-engine/
 
 ## 14. Roadmap
 
+The roadmap below is updated against the related-work survey in [`docs/RELATED-WORK.md`](docs/RELATED-WORK.md), which lands a comparison matrix vs. Smallville · AI Town · Concordia · Habermas Machine · SYNTHIA · Pol.is · Decidim · Remesh · Anthropic CCAI. Concrete learnings derived from that survey are listed in §14.1 below the phase table.
+
 | Phase | Duration | Scope | Gating milestone |
 |---|---|---|---|
-| **V0–V0.10** | shipped | scaffold; 5 fixtures → 50-persona library; real Gemini debates; k-DPP; Open Library validator; SQLite + hash-chained audit; editorial Studio + audit page | 31 tests; 8 commits; live demo of MSP + UBI + plastics-ban debates with verified audit chains |
-| **V1 — MVP** | 10 weeks | Real ADK SequentialAgent + ParallelAgent fan-out (25 × 20 → 5 → 1). 500-persona library v1 (Census + Lokniti stratified sampler). EN + HI via Sarvam. SSE live cluster stream. Bradley-Terry weights calibrated. `AkhadaBench` v0 published. Multi-tenant CMEK. | First external beta with 5 think-tank partners; CSDS bias-audit pass. |
-| **V2 — Government pilot** | 20 weeks | 22 Indian languages. 50,000-persona district-anchored library. First ministry pilot (e.g. farm-bill simulation re-run). DPDP DPIA + EU AI Act Annex IV docs shipped. On-prem deploy kit (Anthos / Confidential GKE). | One signed ministry MoU; DPDP compliance attested; EU AI Act readiness verified externally. |
-| **V3 — Platform** | 24 weeks | Public API. Pluggable model adapters (LiteLLM for Claude / OpenAI / open-weights). White-label (UPSC coaching, election research). `AkhadaBench` cited externally. Vertex batch + spot GPUs for open-weight tier. Global persona modules (WVS / Pew / Eurobarometer). | $50K MRR; AkhadaBench cited by ≥ 2 external papers. |
+| **V0–V0.10** | shipped | scaffold; 5 fixtures → 50-persona library; real Gemini debates; k-DPP; Open Library validator; SQLite + hash-chained audit; editorial Studio + audit page | 31 tests; 9 commits; live demo of MSP + UBI + plastics-ban debates with verified audit chains; [v0.10.0 GitHub release](https://github.com/sargupta/akhada-engine/releases/tag/v0.10.0) |
+| **V0.11–V0.12** | 4 weeks | Multi-tenant isolation + ToS + DPDP DPIA v0; persona library expansion to 200; Wikidata SPARQL fallback for Indic-language book / film coverage; `AkhadaBench` v0 (20-topic factual gold + reproducibility scoreboard); SSE streaming + Studio live cluster view; bias-audit v0 against CSDS poll baselines; methodology paper draft (6 pages) | first ₹4 lakh multilateral pilot signed |
+| **V1 — MVP** | 10 weeks | Real ADK SequentialAgent + ParallelAgent fan-out (5 × ParallelAgent(100) → 25 × cluster → 5 × super-cluster → 1 × final). 500-persona library v1 (Census + Lokniti stratified sampler). EN + HI via Sarvam. **Bradley-Terry weights MLE-calibrated on a 50-debate × 3-rater held-out set, version-pinned `weights:v1.0.0`.** `AkhadaBench` v1 published with M3MAD-Bench-compatible metrics. Multi-tenant CMEK. **Persona-attribution benchmark ≥ 70 % blind classifier accuracy** (per Stanford 2024 work). **Minority-Voice-Fraction metric ≥ 30 %** in every audit JSON (per Habermas Machine 2024 minority-preservation principle). | First external beta with 5 think-tank partners; CSDS bias-audit pass at `KS ≤ 0.15`. |
+| **V2 — Government pilot** | 20 weeks | 22 Indian languages. 50,000-persona district-anchored library. First ministry / state-government pilot. DPDP DPIA + EU AI Act Annex IV docs shipped. On-prem deploy kit (Anthos / Confidential GKE). Daily Merkle-root commit to GCS WORM bucket. Inverse-CCAI mode (submit a proposed AI policy, get back simulated Indian-stakeholder reaction). | One signed ministry / state-government MoU; DPDP compliance attested by external auditor; EU AI Act readiness verified externally; ECI election-calendar lookup table maintained. |
+| **V3 — Platform** | 24 weeks | Public API. Pluggable model adapters (LiteLLM for Claude / OpenAI / open-weights). White-label Studio. `AkhadaBench` v1 cited by ≥ 2 external academic papers. Vertex batch + spot GPUs for open-weight tier. Global persona modules (WVS / Pew / Eurobarometer for non-India deployments). | $50K MRR; methodology paper accepted at ACM CHI / CSCW / AAAI or equivalent. |
+
+### 14.1 Concrete improvements derived from the related-work survey
+
+Each item is traceable to a specific finding in [`docs/RELATED-WORK.md`](docs/RELATED-WORK.md) and is reflected in the phase table above.
+
+| # | Learning | Source | Lands in |
+|---|---|---|---|
+| 1 | Habermas Machine (DeepMind, *Science* 2024) demonstrates that AI-mediated synthesis with explicit minority-preservation is institutionally credible. | RELATED-WORK §4 | V1 conformity guard ships a *Minority-Voice Fraction* metric in every audit JSON, target ≥ 30 % across a 100-debate window |
+| 2 | Stanford 1,052-persona work (Park et al. 2024) proves 85 %-accuracy persona attribution from biographical depth. | RELATED-WORK §2.2 | V1 publishes a persona-attribution benchmark on `AkhadaBench` v1: blind classifier predicts persona from transcript at ≥ 70 % (V1) → ≥ 80 % (V2) |
+| 3 | SYNTHIA's *fairness audit across demographics* is the right shape for a live representativeness check. | RELATED-WORK §2.2 | V1 ships quarterly KS-test bias audit against CSDS poll baselines, published per persona-library version |
+| 4 | M3MAD-Bench (2026) standardises multi-agent debate evaluation. | RELATED-WORK §1.1 | V1 publishes `AkhadaBench` v1 with M3MAD-compatible metrics on a 20-topic India-policy gold set |
+| 5 | Open Library has weak Indic-language coverage (V0.9 validation: 10 / 22 Indian books not matched, all manually confirmed real). | RELATED-WORK §6.1 | V1 wires Wikidata SPARQL fallback for film / TV / song / historical-event validation; published quarterly book-authenticity report |
+| 6 | Pol.is's *divisiveness detection* is a useful primitive for civic deliberation. | RELATED-WORK §3 | V1.1 adds an analogous `contention_score` column to the `Claim` schema, surfaced in the Studio article view |
+| 7 | Anthropic CCAI uses Pol.is to source *norms*; the inverse direction (synthesise stakeholder reactions to a *proposed* norm) is an unoccupied position. | RELATED-WORK §4 | V2 ships an *inverse-CCAI* mode |
+| 8 | DPDP Phase III deadline May 2027; IT Rules 2026 SGI labelling is in force now. | RELATED-WORK §6.4 | V0.11 ships DPIA draft + every Akhada output emits `synthetic_persona_simulation` provenance metadata + visible "AI deliberation simulation" banner |
+| 9 | ECI 3-hour takedown rule for synthetic content during elections. | RELATED-WORK §6.4 | V0.11 expands `mode: publication` ECI guard from a single flag block to a maintained election-calendar lookup table covering all 28 state assemblies + national elections |
+| 10 | None of the surveyed civic platforms (Pol.is, Decidim, Loomio, Consul) ship an editorial-quality output layer. | RELATED-WORK §3 | V0.6's institutional-editorial Studio is the right design choice — preserve and extend (V0.12 adds SSE live cluster stream; V1 adds an audit-page methodology export) |
 
 ---
 

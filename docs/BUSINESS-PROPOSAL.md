@@ -8,10 +8,11 @@
 |---|---|
 | Product | Akhada — Open Debate Engine |
 | Company | **SARGVISION Intelligence** |
-| Document version | 1.0 (May 2026) |
+| Document version | 1.1 (May 2026) |
 | Built artefact | Akhada V0.10 — see [`README.md`](../README.md) |
 | Public repository | https://github.com/sargupta/akhada-engine |
 | Pinned release | [`v0.10.0`](https://github.com/sargupta/akhada-engine/releases/tag/v0.10.0) |
+| Companion documents | [`README.md`](../README.md) (technical reference) · [`RELATED-WORK.md`](RELATED-WORK.md) (literature survey) · [`PROJECT-PROPOSAL.md`](PROJECT-PROPOSAL.md) (research-and-implementation proposal) |
 | Confidentiality | For commercial discussion |
 
 ---
@@ -38,7 +39,7 @@ Akhada is a working software engine that runs a panel of biographically-grounded
 
 Multilateral programme offices commit to spending money in India before they fully know how the spend will land. To bridge that gap, they commission stakeholder analysis: who are the people affected, what would they say if asked, what dimensions of the proposal are likely to fail in execution, what minority perspectives must be preserved.
 
-The current toolkit is qualitative fieldwork — focus group discussions (FGDs), in-depth interviews (IDIs), key-informant interviews (KIIs), participatory rural appraisal (PRA) — typically delivered by an Indian consulting partner (Dalberg, McKinsey Health Institute India, Sambodhi, Athena Infonomics, Ipsos India, Kantar India). A typical engagement is 4–8 weeks long, costs ₹15–40 lakh, covers 6–8 districts in 3–5 languages, and produces a slide deck.
+The current toolkit is qualitative fieldwork — focus group discussions (FGDs), in-depth interviews (IDIs), key-informant interviews (KIIs), participatory rural appraisal (PRA) — typically delivered by an Indian consulting partner (Dalberg India, McKinsey Health Institute India, Sambodhi Research, Athena Infonomics, Ipsos India, Kantar India). A typical engagement is 4–8 weeks long, costs ₹15–40 lakh, covers 6–8 districts in 3–5 languages, and produces a slide deck. The Indian qualitative-research market overall is **₹29,008 crore (USD 3.5 B) at 10.9 % YoY growth** (Market Research Society of India, January 2026); the multilateral / foundation slice is the high-defensibility component of that market.
 
 This work is genuinely useful. It is also slow, expensive, sample-biased toward accessible respondents, hard to iterate (re-fielding costs the same as fielding), monolingual at the synthesis layer (a typical deck is in English even when the fieldwork was in five Indian languages), and methodologically opaque (the path from a transcript line to a slide claim is rarely auditable).
 
@@ -115,14 +116,31 @@ Adjacent wedges and why they are not first:
 
 | Comparable | What it proves |
 |---|---|
-| **Dalberg India** ($2–10M projects with BMGF, World Bank India) | Multilaterals + foundations pay $25K–$250K per India stakeholder-analysis engagement; budget exists |
-| **Anthropic × Pol.is "Collective Constitutional AI"** (2024–25) | AI-mediated deliberation is institutionally accepted by Western governments |
-| **Pol.is** in Taiwan g0v, UK Cabinet Office, European Commission | Civic-tech buyers exist and pay |
-| **Remesh** ($35M+ raised, customers include UN agencies, governments, brands) | Same buyer DNA as our wedge; closest "raised on this thesis" precedent |
-| **Stanford generative-agents work (Park et al. 2023)** + **SYNTHIA** (30K-persona BlueSky simulation, 2024) | Persona simulation is methodologically credible at academic peer-review |
-| **Ipsos India, Kantar India, Nielsen** (combined ~$200–400M ARR) | The qualitative-research market that Akhada augments / partly replaces is large and operational |
+| **Dalberg India** (₹85.8 cr revenue FY25 per Tracxn; multi-year USAID + BMGF + World Bank contracts) | Multilaterals + foundations pay USD 250K – $2 M per India stakeholder-analysis engagement; budget exists |
+| **Anthropic × Pol.is Collective Constitutional AI** (2023, ~1,127 statements / 38,252 votes) | AI-mediated public deliberation is institutionally accepted; same buyer DNA |
+| **Pol.is** in Taiwan vTaiwan (28 issues, 80 % enacted), UK Cabinet Office, Anthropic CCAI | Civic-tech buyers exist; the methodology has multi-year track record |
+| **Remesh** ($35M+ raised; UN Yemen / Libya / brand-research deployments) | Same buyer DNA as our wedge; closest *"raised on this thesis"* precedent; pricing is opaque (advantage to a transparent-pricing entrant) |
+| **DeepMind Habermas Machine** (Science 2024; tested on 5,000+ UK participants) | AI-mediated synthesis preserving minority perspectives is *peer-reviewed*; closest academic neighbour to Akhada |
+| **Stanford 1,052-persona simulation** (Park et al. 2024, [arXiv:2411.10109](https://arxiv.org/abs/2411.10109); 85 % accuracy persona attribution) + **SYNTHIA** (30,000-persona BlueSky-grounded simulation, 2025) | Synthetic-persona methodology at scale is academically credible |
+| **Ipsos India, Kantar India, Sambodhi, Athena Infonomics, Outline India** | The Indian qualitative-research market is **₹29,008 crore (USD 3.5 B), 10.9 % YoY growth as of FY25** (Market Research Society of India, January 2026) — not the ₹1,500–3,000 cr first estimated; the multilateral / foundation slice is the high-defensibility component |
 
-What is **novel** to Akhada and not yet shipped commercially: the specific combination of synthetic India-grounded personas with biographical depth + provable-diversity sampling + hash-chained audit trail + Bradley-Terry quality-weighted synthesis. That novelty is the opportunity and also the execution risk. Both are real.
+What is **novel** to Akhada and not yet shipped commercially or academically (verified against the literature survey in [`docs/RELATED-WORK.md`](RELATED-WORK.md) §7): the specific combination of (i) synthetic Indian-demographic-grounded personas with biographical depth, (ii) provable-diversity sampling via exact k-DPP, (iii) hash-chained per-event audit trail with executable tamper detection, and (iv) Bradley-Terry quality-weighted synthesis with sourced reasoning. That novelty is the opportunity and also the execution risk. Both are real.
+
+### 4.4 Competitive landscape — survey result
+
+A formal literature + competitive review is in [`docs/RELATED-WORK.md`](RELATED-WORK.md). The headline matrix from §7 of that document, condensed:
+
+| Capability | Smallville | AI Town | Concordia | Habermas Machine | SYNTHIA | Pol.is | Decidim | Remesh | Anthropic CCAI | **Akhada V0.10** |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Indian demographic grounding | – | – | – | – | – | – | – | – | – | **✓** |
+| Provable-diversity sampling (k-DPP) | – | – | – | – | – | – | – | – | – | **✓** |
+| Hash-chained audit trail | – | – | – | – | – | – | partial | – | – | **✓** |
+| Bradley-Terry quality-weighted synthesis | – | – | – | partial | – | – | – | – | – | **✓** |
+| Open-source AGPL-3.0 with commercial-tier carve-out | – | – | – | – | – | ✓ AGPL | ✓ AGPL | – | – | **✓** |
+
+**Akhada is the only ✓ in the top three rows of the full matrix.** Those three rows — Indian grounding, provable-diversity, hash-chained audit — are the moat. The full matrix and the eight-point defensible-gap analysis are in `docs/RELATED-WORK.md` §7–§8. The corresponding ten concrete V1 / V2 product-roadmap learnings are in `README.md` §14.1.
+
+A specific finding worth surfacing here: **no India-grounded synthetic-persona civic-deliberation tool exists** anywhere in the surveyed landscape — verified across (a) GitHub repos with *india + deliberation / civic / policy / personas* keywords, (b) MyGov-platform-adjacent OSS, (c) Indian civic-tech orgs (Janaagraha, Civic Tech India, eGov Foundation, SAMAGRA, Ekstep), (d) Indian AI startups (Sarvam AI USD 53.8 M raised, Krutrim USD 50 M + 230 M committed, BharatGen IIT-Bombay-led 22-language multimodal LLM launched June 2025). The closest Indian players are foundation-model / API plays, not deliberation products. Akhada is not a foundation model; it is the deliberation layer that uses foundation models. There is no commercial overlap with Sarvam, Krutrim, or BharatGen.
 
 ---
 
@@ -314,12 +332,12 @@ The 30-persona DPP-sampled MSP debate (V0.9 commit) spanned 22 distinct states a
 
 ### 11.2 The market exists
 
-- Indian qualitative-research market: **₹1,500–3,000 cr / yr** (Ipsos, Kantar, Nielsen, Sambodhi, Athena Infonomics combined revenue baseline)
-- Multilateral + foundation India share: **₹400–800 cr / yr** (high-defensibility slice)
-- Per-engagement willingness-to-pay: **₹15–40 lakh** for 4–8 week stakeholder analyses
-- Akhada per-pilot offer: **₹4 lakh** for 4-week pilot
+- **Indian qualitative-research market:** ₹29,008 crore (USD 3.5 B) FY25, growing 10.9 % YoY (Market Research Society of India, January 2026 — see [`docs/RELATED-WORK.md`](RELATED-WORK.md) §6.2 for the survey-corrected figure; an earlier internal estimate of ₹1,500–3,000 cr captured only the Tier-1 share)
+- **Multilateral + foundation India slice:** the *high-defensibility* component of the market — work commissioned for programme design, regulatory review, or peer-reviewed publication
+- **Per-engagement willingness-to-pay:** ₹15–40 lakh for 4–8 week stakeholder analyses (Dalberg India, McKinsey Health Institute India, Sambodhi Research, Athena Infonomics, Outline India typical scales)
+- **Akhada per-pilot offer:** ₹4 lakh for a 4-week pilot
 
-The ratio is 1:10. That is the room.
+The cost-compression ratio is 1:10 against traditional fieldwork; the elapsed-time compression is 1:30 (90 seconds vs. 6 weeks per topic). The room is large.
 
 ### 11.3 The methodology is institutionally accepted
 

@@ -1,7 +1,14 @@
 {
   "name": "akhada-studio-web",
-  "version": "0.0.1",
+  "version": "0.10.0",
   "private": true,
+  "description": "Akhada Studio — editorial UI for the Open Debate Engine. A SARGVISION Intelligence product.",
+  "author": "SARGVISION Intelligence",
+  "homepage": "https://github.com/sargupta/akhada-engine",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sargupta/akhada-engine.git"
+  },
   "license": "AGPL-3.0-or-later",
   "scripts": {
     "dev": "next dev",

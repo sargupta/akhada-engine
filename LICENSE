@@ -663,7 +663,9 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 ================================================================================
 
 Akhada — Open Debate Engine
-Copyright (C) 2026 Akhada contributors
+A SARGVISION Intelligence product.
+
+Copyright (C) 2026 SARGVISION Intelligence and Akhada contributors
 
 SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -681,5 +683,6 @@ engine. Commercial features (50,000-persona district-anchored library v2,
 DigiLocker e-KYC integration, Opus synthesis tier, on-prem deploy kit
 covering Anthos + Confidential GKE, audit-immutability WORM provisioning,
 multi-tenant CMEK provisioning, white-label Studio, observability + SLO
-dashboard pack) are available under a commercial license. Contact the
-maintainers via https://github.com/sargupta/akhada-engine.
+dashboard pack) are available under a commercial license issued by
+SARGVISION Intelligence. Contact the maintainers via
+https://github.com/sargupta/akhada-engine.

@@ -1,11 +1,22 @@
 [tool.poetry]
 name = "akhada-orchestrator"
-version = "0.0.1"
-description = "Akhada — open debate engine orchestrator (ADK + FastAPI)"
-authors = ["Akhada contributors"]
+version = "0.10.0"
+description = "Akhada — Open Debate Engine orchestrator (ADK + FastAPI). A SARGVISION Intelligence product."
+authors = ["SARGVISION Intelligence"]
+maintainers = ["SARGVISION Intelligence"]
 license = "AGPL-3.0-or-later"
 readme = "README.md"
+homepage = "https://github.com/sargupta/akhada-engine"
+repository = "https://github.com/sargupta/akhada-engine"
 packages = [{ include = "akhada", from = "src" }]
+classifiers = [
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Sociology",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"

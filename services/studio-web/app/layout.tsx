@@ -5,9 +5,13 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Akhada · Open Debate Engine",
+  title: "Akhada · Open Debate Engine — a SARGVISION Intelligence product",
   description:
-    "Stress-test public deliberation across 500+ AI personas grounded in Indian Census, NFHS-5 and Lokniti distributions.",
+    "Stress-test public deliberation across 500+ AI personas grounded in Indian Census, NFHS-5 and Lokniti distributions. A SARGVISION Intelligence product.",
+  applicationName: "Akhada",
+  authors: [{ name: "SARGVISION Intelligence" }],
+  creator: "SARGVISION Intelligence",
+  publisher: "SARGVISION Intelligence",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

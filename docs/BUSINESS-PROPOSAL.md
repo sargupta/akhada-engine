@@ -6,8 +6,12 @@
 
 | | |
 |---|---|
+| Product | Akhada — Open Debate Engine |
+| Company | **SARGVISION Intelligence** |
 | Document version | 1.0 (May 2026) |
-| Built artefact | Akhada V0.10 — see `README.md` |
+| Built artefact | Akhada V0.10 — see [`README.md`](../README.md) |
+| Public repository | https://github.com/sargupta/akhada-engine |
+| Pinned release | [`v0.10.0`](https://github.com/sargupta/akhada-engine/releases/tag/v0.10.0) |
 | Confidentiality | For commercial discussion |
 
 ---
@@ -419,8 +423,14 @@ Full attribution in `NOTICE`.
 
 If you are a programme officer at a multilateral, foundation, think tank, or large newsroom who recognises the problem in §2 — the standard limitations of Indian qualitative fieldwork — and the value proposition in §5 sounds defensible to you, the ask is:
 
-> **One 30-minute working session with one of your live programme questions.** I will run it through Akhada in front of you and you will see the article + the conclusive remark + the audit chain. If it does not earn the next conversation, we both stop. If it does, we sign the ₹4 lakh pilot in §7 and start.
+> **One 30-minute working session with one of your live programme questions.** SARGVISION Intelligence will run it through Akhada in front of you and you will see the article + the conclusive remark + the audit chain. If it does not earn the next conversation, we both stop. If it does, we sign the ₹4 lakh pilot in §7 and start.
 
 The artefact is real; the wedge is sharp; the work is in your hands.
 
-Contact through the maintainers of this repository.
+---
+
+**Akhada is a product of SARGVISION Intelligence.**
+
+Repository: https://github.com/sargupta/akhada-engine
+Pinned release: [v0.10.0](https://github.com/sargupta/akhada-engine/releases/tag/v0.10.0)
+Contact: via repository issues or the maintainers' email (see `pyproject.toml`)

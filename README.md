@@ -1,6 +1,8 @@
 # Akhada — Open Debate Engine
 
 > **Stress-test public deliberation, before public deliberation stress-tests you.**
+>
+> *A SARGVISION Intelligence product.*
 
 Akhada is an open civic-deliberation engine that runs a panel of biographically-grounded AI personas — drawn from real Indian demographic distributions — through a structured debate on any policy topic, then synthesises a sourced article and a Bradley-Terry-quality-weighted conclusive remark. Every debate is persisted with a cryptographic, hash-chained audit trail.
 
@@ -561,9 +563,13 @@ akhada-engine/
 
 **Open core: AGPL-3.0-or-later.** The engine, the persona schema, the k-DPP sampler, the offline runtime, the audit trail, the Open Library validator, the Studio, and the eval harness are all AGPL-3.0. See `LICENSE`.
 
-**Commercial license** for gov-tier features: 50,000-persona district-anchored library v2, DigiLocker e-KYC integration, Opus synthesis tier, on-prem deploy kit (Anthos + Confidential GKE), audit-immutability WORM provisioning, multi-tenant CMEK provisioning, white-label Studio, observability + SLO dashboard pack. Contact the maintainers.
+**Commercial license** issued by **SARGVISION Intelligence** for gov-tier features: 50,000-persona district-anchored library v2, DigiLocker e-KYC integration, Opus synthesis tier, on-prem deploy kit (Anthos + Confidential GKE), audit-immutability WORM provisioning, multi-tenant CMEK provisioning, white-label Studio, observability + SLO dashboard pack. Contact via this repository's issues or the maintainers' email.
 
 Dataset attribution in `NOTICE`.
+
+---
+
+Akhada is a product of **SARGVISION Intelligence**.
 
 ---
 
